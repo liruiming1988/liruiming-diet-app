@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>健康瘦身助手 - 您的个人减肥顾问</title>
+    <link rel="stylesheet" href="diet-style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4caf50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="瘦身助手">
+    <meta name="description" content="您的个人减肥顾问 - 科学管理饮食、运动和健康">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-512.png">
+</head>
+<body>
+    <!-- 主容器 -->
+    <div class="app-container">
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <span class="logo-icon">🏃</span>
+                <span class="logo-text">健康瘦身助手</span>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">首页</button>
+                <button class="nav-tab" data-tab="profile">我的资料</button>
+                <button class="nav-tab" data-tab="diet">饮食管理</button>
+                <button class="nav-tab" data-tab="exercise">运动计划</button>
+                <button class="nav-tab" data-tab="analysis">数据分析</button>
+            </div>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 首页 - 数据概览 -->
+            <section id="dashboard" class="tab-content active">
+                <h2>今日概览</h2>
+                <div class="dashboard-cards">
+                    <div class="dashboard-card calories">
+                        <div class="card-icon">🔥</div>
+                        <div class="card-title">热量摄入</div>
+                        <div class="card-value"><span id="todayCalories">0</span> <span class="unit">kcal</span></div>
+                        <div class="card-subtitle">目标：<span id="targetCalories">2000</span> kcal</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="caloriesProgress"></div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card weight">
+                        <div class="card-icon">⚖️</div>
+                        <div class="card-title">当前体重</div>
+                        <div class="card-value"><span id="currentWeight">--</span> <span class="unit">kg</span></div>
+                        <div class="card-subtitle">目标：<span id="targetWeight">--</span> kg</div>
+                    </div>
+                    <div class="dashboard-card exercise">
+                        <div class="card-icon">🏋️</div>
+                        <div class="card-title">今日运动</div>
+                        <div class="card-value"><span id="todayExercise">0</span> <span class="unit">分钟</span></div>
+                        <div class="card-subtitle">目标：<span id="targetExercise">30</span> 分钟</div>
+                    </div>
+                    <div class="dashboard-card water">
+                        <div class="card-icon">💧</div>
+                        <div class="card-title">今日饮水</div>
+                        <div class="card-value"><span id="todayWater">0</span> <span class="unit">杯</span></div>
+                        <div class="card-subtitle">目标：8杯</div>
+                    </div>
+                </div>
+
+                <!-- 快速操作 -->
+                <div class="quick-actions">
+                    <h3>快速记录</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="addMealBtn">
+                            <span class="btn-icon">🍽️</span>
+                            <span class="btn-text">添加餐食</span>
+                        </button>
+                        <button class="action-btn" id="addExerciseBtn">
+                            <span class="btn-icon">🏃</span>
+                            <span class="btn-text">添加运动</span>
+                        </button>
+                        <button class="action-btn" id="addWaterBtn">
+                            <span class="btn-icon">💧</span>
+                            <span class="btn-text">记录饮水</span>
+                        </button>
+                        <button class="action-btn" id="updateWeightBtn">
+                            <span class="btn-icon">⚖️</span>
+                            <span class="btn-text">更新体重</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 健康提醒 -->
+                <div class="health-alerts">
+                    <h3>🚫 今日禁忌提醒</h3>
+                    <div id="todayAlerts">
+                        <!-- 动态内容 -->
+                    </div>
+                </div>
+
+                <!-- 天气信息 -->
+                <div class="weather-section">
+                    <h3>🌤️ 天气信息</h3>
+                    <div id="weatherInfo">
+                        <div class="weather-loading">正在获取天气信息...</div>
+                    </div>
+                    <div id="weatherRecommendation" class="weather-recommendation"></div>
+                </div>
+
+                <!-- 热量分析 -->
+                <div class="calories-analysis">
+                    <h3>📊 热量分析</h3>
+                    <div id="caloriesAnalysisContent">
+                        <div class="loading-state">正在分析热量数据...</div>
+                    </div>
+                </div>
+
+                <!-- 智能计划 -->
+                <div class="smart-plan">
+                    <h3>📋 明日计划</h3>
+                    <div id="tomorrowPlan">
+                        <div class="loading-state">正在生成智能计划...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 我的资料 - 个人信息 -->
+            <section id="profile" class="tab-content">
+                <h2>我的资料</h2>
+                <div class="profile-form">
+                    <div class="form-section">
+                        <h3>基本信息</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>性别</label>
+                                <select id="gender">
+                                    <option value="male">男</option>
+                                    <option value="female">女</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>年龄</label>
+                                <input type="number" id="age" placeholder="25" min="1" max="120">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>身高</label>
+                                <input type="number" id="height" placeholder="170" min="50" max="250">
+                            </div>
+                            <div class="form-group">
+                                <label>当前体重</label>
+                                <input type="number" id="weight" placeholder="70" min="20" max="300" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>目标体重</label>
+                            <input type="number" id="goalWeight" placeholder="60" min="20" max="300" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>每周减重目标</label>
+                            <select id="weeklyGoal">
+                                <option value="0.25">0.25 kg（温和）</option>
+                                <option value="0.5" selected>0.5 kg（推荐）</option>
+                                <option value="0.75">0.75 kg（积极）</option>
+                                <option value="1">1 kg（激进）</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>活动水平</h3>
+                        <div class="form-group">
+                            <label>日常活动量</label>
+                            <select id="activityLevel">
+                                <option value="1.2">久坐（很少运动）</option>
+                                <option value="1.375">轻度（每周1-3次运动）</option>
+                                <option value="1.55" selected>中度（每周3-5次运动）</option>
+                                <option value="1.725">高度（每周6-7次运动）</option>
+                                <option value="1.9">极高（每天高强度运动）</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-primary" id="saveProfile">保存并生成计划</button>
+                    </div>
+                </div>
+
+                <!-- 计算结果 -->
+                <div class="calculation-results" id="calculationResults" style="display: none;">
+                    <h3>您的个人数据</h3>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span class="result-label">BMI指数</span>
+                            <span class="result-value" id="bmiValue">--</span>
+                            <span class="result-status" id="bmiStatus">--</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">基础代谢率</span>
+                            <span class="result-value"><span id="bmrValue">--</span> kcal</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">每日总消耗</span>
+                            <span class="result-value"><span id="tdeeValue">--</span> kcal</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">建议热量摄入</span>
+                            <span class="result-value"><span id="recommendedCalories">--</span> kcal</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">预计达成目标</span>
+                            <span class="result-value" id="estimatedDays">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 饮食管理 -->
+            <section id="diet" class="tab-content">
+                <h2>饮食管理</h2>
+
+                <!-- 饮食统计 -->
+                <div class="diet-summary">
+                    <div class="summary-item">
+                        <div class="summary-label">早餐</div>
+                        <div class="summary-value"><span id="breakfastCalories">0</span> kcal</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">午餐</div>
+                        <div class="summary-value"><span id="lunchCalories">0</span> kcal</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">晚餐</div>
+                        <div class="summary-value"><span id="dinnerCalories">0</span> kcal</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">加餐</div>
+                        <div class="summary-value"><span id="snackCalories">0</span> kcal</div>
+                    </div>
+                </div>
+
+                <!-- 添加餐食 -->
+                <div class="add-meal-section">
+                    <h3>添加餐食</h3>
+                    <div class="meal-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>餐次</label>
+                                <select id="mealType">
+                                    <option value="breakfast">早餐</option>
+                                    <option value="lunch">午餐</option>
+                                    <option value="dinner">晚餐</option>
+                                    <option value="snack">加餐</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>食物名称</label>
+                                <input type="text" id="foodName" placeholder="例如：米饭、鸡胸肉">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>分量（克）</label>
+                                <input type="number" id="foodWeight" placeholder="100" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>热量（kcal）</label>
+                                <input type="number" id="foodCalories" placeholder="100" min="1">
+                            </div>
+                        </div>
+                        <button class="btn-primary" id="addFoodBtn">添加食物</button>
+                    </div>
+                </div>
+
+                <!-- 常用食物库 -->
+                <div class="food-library">
+                    <h3>常用食物库</h3>
+                    <div class="food-categories">
+                        <button class="category-btn active" data-category="all">全部</button>
+                        <button class="category-btn" data-category="grains">主食</button>
+                        <button class="category-btn" data-category="protein">蛋白质</button>
+                        <button class="category-btn" data-category="vegetables">蔬菜</button>
+                        <button class="category-btn" data-category="fruits">水果</button>
+                    </div>
+                    <div class="food-list" id="foodList">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 今日饮食记录 -->
+                <div class="today-meals">
+                    <h3>今日饮食记录</h3>
+                    <div id="todayMealsList">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 运动计划 -->
+            <section id="exercise" class="tab-content">
+                <h2>运动计划</h2>
+
+                <!-- 运动统计 -->
+                <div class="exercise-summary">
+                    <div class="summary-card">
+                        <div class="summary-title">今日运动</div>
+                        <div class="summary-value"><span id="exerciseMinutes">0</span> 分钟</div>
+                        <div class="summary-subtitle">消耗：<span id="exerciseBurned">0</span> kcal</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-title">本周运动</div>
+                        <div class="summary-value"><span id="weeklyExercise">0</span> 分钟</div>
+                        <div class="summary-subtitle">目标：210 分钟</div>
+                    </div>
+                </div>
+
+                <!-- 添加运动 -->
+                <div class="add-exercise-section">
+                    <h3>添加运动</h3>
+                    <div class="exercise-form">
+                        <div class="form-group">
+                            <label>运动类型</label>
+                            <select id="exerciseType">
+                                <option value="walking">步行</option>
+                                <option value="running">跑步</option>
+                                <option value="swimming">游泳</option>
+                                <option value="cycling">骑行</option>
+                                <option value="yoga">瑜伽</option>
+                                <option value="strength">力量训练</option>
+                                <option value="hiit">HIIT</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>运动时长（分钟）</label>
+                            <input type="number" id="exerciseDuration" placeholder="30" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>运动强度</label>
+                            <select id="exerciseIntensity">
+                                <option value="low">低强度</option>
+                                <option value="medium" selected>中等强度</option>
+                                <option value="high">高强度</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" id="addExerciseRecordBtn">添加运动记录</button>
+                    </div>
+                </div>
+
+                <!-- 推荐运动 -->
+                <div class="recommended-exercise">
+                    <h3>今日推荐运动</h3>
+                    <div id="recommendedExerciseList">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 运动记录 -->
+                <div class="exercise-record">
+                    <h3>运动记录</h3>
+                    <div id="exerciseRecordList">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据分析 -->
+            <section id="analysis" class="tab-content">
+                <h2>数据分析</h2>
+
+                <!-- 体重趋势 -->
+                <div class="chart-section">
+                    <h3>体重趋势</h3>
+                    <div class="chart-container" id="weightChart">
+                        <!-- 图表将在这里绘制 -->
+                    </div>
+                </div>
+
+                <!-- 热量趋势 -->
+                <div class="chart-section">
+                    <h3>热量摄入趋势</h3>
+                    <div class="chart-container" id="caloriesChart">
+                        <!-- 图表将在这里绘制 -->
+                    </div>
+                </div>
+
+                <!-- 运动趋势 -->
+                <div class="chart-section">
+                    <h3>运动量趋势</h3>
+                    <div class="chart-container" id="exerciseChart">
+                        <!-- 图表将在这里绘制 -->
+                    </div>
+                </div>
+
+                <!-- 减肥禁忌 -->
+                <div class="taboo-section">
+                    <h3>🚫 减肥禁忌</h3>
+                    <div class="taboo-list">
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>极端节食</h4>
+                                <p>不要通过极端节食来减肥，这会损害新陈代谢和健康。</p>
+                            </div>
+                        </div>
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>熬夜</h4>
+                                <p>睡眠不足会增加食欲，导致体重增加。</p>
+                            </div>
+                        </div>
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>不吃早餐</h4>
+                                <p>不吃早餐会导致午餐和晚餐过度进食。</p>
+                            </div>
+                        </div>
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>久坐不动</h4>
+                                <p>长时间久坐会降低新陈代谢，增加脂肪堆积。</p>
+                            </div>
+                        </div>
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>吃太快</h4>
+                                <p>快速进食会减少饱腹感，导致过量进食。</p>
+                            </div>
+                        </div>
+                        <div class="taboo-item">
+                            <div class="taboo-icon">🚫</div>
+                            <div class="taboo-content">
+                                <h4>喝含糖饮料</h4>
+                                <p>含糖饮料是导致体重增加的主要原因之一。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 添加记录弹窗 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">添加记录</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="diet-app.js"></script>
+</body>
+</html>
