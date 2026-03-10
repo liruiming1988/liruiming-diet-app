@@ -1,0 +1,105 @@
+{
+  "name": "健康瘦身助手",
+  "short_name": "瘦身助手",
+  "description": "您的个人减肥顾问 - 科学管理饮食、运动和健康",
+  "start_url": "./diet-app.html",
+  "display": "standalone",
+  "background_color": "#4caf50",
+  "theme_color": "#4caf50",
+  "orientation": "portrait",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "health",
+    "fitness",
+    "lifestyle",
+    "productivity"
+  ],
+  "shortcuts": [
+    {
+      "name": "记录饮食",
+      "short_name": "饮食",
+      "description": "快速记录饮食",
+      "url": "./diet-app.html#diet",
+      "icons": [
+        {
+          "src": "icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "记录运动",
+      "short_name": "运动",
+      "description": "快速记录运动",
+      "url": "./diet-app.html#exercise",
+      "icons": [
+        {
+          "src": "icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "查看数据",
+      "short_name": "数据",
+      "description": "查看健康数据",
+      "url": "./diet-app.html#analysis",
+      "icons": [
+        {
+          "src": "icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
